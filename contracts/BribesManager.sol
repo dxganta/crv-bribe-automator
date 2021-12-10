@@ -9,12 +9,13 @@ import "../interfaces/token/IERC20.sol";
 // organise the storage variables to use storage more efficiently
 
 contract BribesManager {
-    address public constant CURVE_BRIBE = 0x7893bbb46613d7a4FbcC31Dab4C9b823FfeE1026;
     address public immutable TOKEN;
     address public immutable GAUGE;
     uint public immutable TOKENS_PER_VOTE;
-    uint public lastBribe;
-    // uint constant WEEK = 86400 * 7;
+    uint public lastPeriod;
+
+    address constant CURVE_BRIBE = 0x7893bbb46613d7a4FbcC31Dab4C9b823FfeE1026;
+    uint constant WEEK = 86400 * 7;
 
     /// @param token Address of the reward/incentive token
     /// @param gauge address of the curve gauge
@@ -27,19 +28,9 @@ contract BribesManager {
         IERC20(TOKEN).approve(CURVE_BRIBE, type(uint).max);
     }
 
-    /// @dev this method needs to be called just once after deploying the contract
-    /// @param init_balance initial balance of tokens to send to the contract to start the bribing
-    function initialize(uint init_balance) public {
-        require(lastBribe == 0);
-        require(init_balance > TOKENS_PER_VOTE);
-        IERC20(TOKEN).transferFrom(msg.sender, address(this), init_balance);
-        IBribeV2(CURVE_BRIBE).add_reward_amount(GAUGE, TOKEN, TOKENS_PER_VOTE);
-        lastBribe = IBribeV2(CURVE_BRIBE).active_period(GAUGE, TOKEN);
-    }
-
     /// @dev sends the token incentives to curve gauge votes for the next vote cycle/period
     function sendBribe() public {
-        require(lastBribe != 0, "Not initialized");
+        // require(lastPeriod != 0, "Not initialized");
         uint balance = IERC20(TOKEN).balanceOf(address(this));
         uint amount = TOKENS_PER_VOTE;
         require(balance > 0, "No tokens");
@@ -49,11 +40,10 @@ contract BribesManager {
         }
 
         // make sure that the token incentives can be sent only once per vote 
-        uint activePeriod = IBribeV2(CURVE_BRIBE).active_period(GAUGE, TOKEN);
-        require (activePeriod != lastBribe, "Incentives already sent");
-        lastBribe = activePeriod;
+        require (block.timestamp > lastPeriod + 604800, "Bribe already sent"); // 604800 seconds in 1 week
 
         IBribeV2(CURVE_BRIBE).add_reward_amount(GAUGE, TOKEN, amount);
+        lastPeriod = IBribeV2(CURVE_BRIBE).active_period(GAUGE, TOKEN);
     }
 
     /// @dev returns the remaining number of votig cycles that the contract can vote for with current token balance
