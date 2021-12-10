@@ -9,8 +9,6 @@ import "../../interfaces/token/IERC20.sol";
 // organise the storage variables to use storage more efficiently
 
 library BribesLogic {
-    uint constant WEEK = 86400 * 7;
-
     /// @dev sends the token incentives to curve gauge votes for the next vote cycle/period
     function sendBribe(address TOKEN, address GAUGE, uint TOKENS_PER_VOTE, uint lastPeriod, address CURVE_BRIBE) public returns (uint) {
         uint balance = IERC20(TOKEN).balanceOf(address(this));
