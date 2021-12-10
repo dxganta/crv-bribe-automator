@@ -4,7 +4,7 @@ from brownie import (
     accounts,
     interface,
     Contract,
-    BribesManager,
+    BribesFactory,
     BribesLogic
 )
 from config import (
@@ -22,11 +22,16 @@ def test_main():
         "0x7893bbb46613d7a4FbcC31Dab4C9b823FfeE1026")
     token_whale = accounts.at(
         "0x627dcd9b5518ace082eafa1f40842b9b45fbbd9c", force=True)
-
+    # deploy library
     BribesLogic.deploy({"from": token_whale})
 
-    manager = BribesManager.deploy(
-        TOKEN, GAUGE, TOKENS_PER_VOTE,  {"from": token_whale})
+    # deploy factory
+    factory = BribesFactory.deploy({'from': token_whale})
+
+    manager_address = factory.deployManager(
+        TOKEN, GAUGE, TOKENS_PER_VOTE,  {"from": token_whale}).return_value
+
+    manager = interface.IBribesManager(manager_address)
 
     # assert that their are no token rewards before sending bribe
     rewards = bribeV2.reward_per_token(GAUGE, TOKEN)
@@ -36,14 +41,14 @@ def test_main():
     token.transfer(manager, TOKENS_PER_VOTE * 2 + dust, {'from': token_whale})
 
     # bribe
-    manager.sendBribe()
+    manager.sendBribe({'from': token_whale})
 
     rewards = bribeV2.reward_per_token(GAUGE, TOKEN)
     assert rewards > 0
 
     # test that bribes cannot be sent again for the same voting cycle
     with brownie.reverts("Bribe already sent"):
-        manager.sendBribe()
+        manager.sendBribe({'from': token_whale})
 
     # fast-forward 1 week
     chain.sleep(86400 * 7)
@@ -65,7 +70,7 @@ def test_main():
     balance = token.balanceOf(manager)
     assert balance > 0 and balance < TOKENS_PER_VOTE
 
-    manager.sendBribe()
+    manager.sendBribe({'from': rand_user})
 
     assert token.balanceOf(manager) == 0
 
@@ -75,7 +80,7 @@ def test_main():
     chain.mine()
 
     with brownie.reverts("No tokens"):
-        manager.sendBribe()
+        manager.sendBribe({'from': token_whale})
 
     # now lets top up the contract  and test that bribe sending works again
     token.transfer(manager, TOKENS_PER_VOTE * 10, {'from': token_whale})

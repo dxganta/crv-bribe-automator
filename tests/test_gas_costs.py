@@ -5,7 +5,8 @@ from brownie import (
     interface,
     Contract,
     BribesManager,
-    BribesLogic
+    BribesLogic,
+    BribesFactory
 )
 from config import (
     GAUGE,
@@ -23,6 +24,7 @@ def test_gas_costs():
     # deply the BribesLogic library first
     BribesLogic.deploy({"from": token_whale})
 
+    # this will show the gas costs of directly deploying the BribesManager contract
     manager = BribesManager.deploy(
         TOKEN, GAUGE, TOKENS_PER_VOTE,  {"from": token_whale})
 
@@ -31,3 +33,9 @@ def test_gas_costs():
 
     # bribe
     manager.sendBribe()
+
+    # factory
+    factory = BribesFactory.deploy({"from": token_whale})
+    # this will show the gas cost of deploying the BribesManager contract using the factory contract
+    manager_f = factory.deployManager(
+        TOKEN, GAUGE, TOKENS_PER_VOTE, {"from": token_whale})

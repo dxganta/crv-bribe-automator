@@ -4,10 +4,6 @@ pragma solidity ^0.8.9;
 import "../../interfaces/curve/IBribeV2.sol";
 import "../../interfaces/token/IERC20.sol";
 
-// TODO:
-// turn this into a library and use a proxy contract & check where the gas costs is less
-// organise the storage variables to use storage more efficiently
-
 library BribesLogic {
     /// @dev sends the token incentives to curve gauge votes for the next vote cycle/period
     function sendBribe(address TOKEN, address GAUGE, uint TOKENS_PER_VOTE, uint lastPeriod, address CURVE_BRIBE) public returns (uint) {
