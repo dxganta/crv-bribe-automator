@@ -3,7 +3,6 @@
 ## TODO:
 1. Final gas check before submitting the project to gitcoin
 2. Delete the test_gas_costs.py file
-3. Add a test_bribe_factory.py & test_bribe_manager.py
 ## Summary
 ### [BribesManager.sol]((https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesManager.sol))
 The main contract is the BribesManager.sol contract. It has no admin controls.
@@ -29,7 +28,6 @@ On deployment of the contract, the user needs to input the following parameters:
 This is a factory contract added for ease of deployment of the BribesManager contract by any user. This also reduces the gas cost for deploying a BribesManager contract (details below under Gas Costs section). This Factory contract needs to be deployed just once.
 
 The user has to call the <strong>deployManager()</strong> method with the required parameters to deploy a new BribesManager contract. A <strong>NewManager</strong> event is emitted on contract deployment to keep logs of all the managers deployed.
-
 ## Installation & Setup
 
 1. Install [Brownie](https://eth-brownie.readthedocs.io/en/stable/install.html) & [Ganache-CLI](https://www.npmjs.com/package/ganache-cli), if you haven't already.
@@ -47,18 +45,11 @@ pip install -r requirements.txt
 ```
 
 ## Tests
-Test cases included
-photo of successful tests
-how to test
-
-## To Add
-1. Add links to everything
-2. Documentation of the code
-3. Video demo
-4. List of all the crvGauges (if time permits)
-5. Installation & Setup
-6. Gas costs
-
+All requierd tests for the contract are included in the file [tests/test_main.py](https://github.com/realdiganta/crv-bribe-automator/blob/main/tests/test_main.py). To run the tests run the following command
+```
+brownie test
+```
+<img src="https://user-images.githubusercontent.com/47485188/145868086-cbb29332-168d-4caf-bb84-f4f0fa6a8466.png"> </img>
 
 ## Gas Costs
 At first, I created a single BribesManager contract with all the code in it. But the deployment cost was very high (342210 gas). So I changed it to a library-contract architecture where the <strogn>BribesLogic</strong> library contains all the logic and the <strong>BribesManager</strong> stores the state variables. This reduced the cost of deploying the BribesManager to 221089 gas (<strong>35.4 %</strong> reduction).
