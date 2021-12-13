@@ -8,9 +8,9 @@
 The main contract is the BribesManager.sol contract. It has no admin controls.
 
 On deployment of the contract, the user needs to input the following parameters:
- 1. <strong>token</strong>: The address of the reward/incentive that will be used for bribing
- 2. <strong>gauge</strong>: the address of the required curve gauge
- 3. <strong>tokens_per_vote</strong>: the amount of tokens that will be sent to the curve bribing contract per vote(voting cycle).
+ 1. <strong>token</strong>: The contract address of the reward/incentive (ERC20 Token) that will be used for bribing.
+ 2. <strong>gauge</strong>: The contract address of the required curve gauge.
+ 3. <strong>tokens_per_vote</strong>: The amount of tokens that will be sent to the curve bribing contract per vote (voting cycle).
 
  Anybody can send tokens to the contract to be used for bribing.
  Once sent the user has to call the <strong>sendBribe()</strong> method to send the tokens to the curve bribing contract. <strong>The sendBribe()</strong> method requires no parameters and can be called by anyone.
@@ -45,7 +45,7 @@ pip install -r requirements.txt
 ```
 
 ## Tests
-All requierd tests for the contract are included in the file [tests/test_main.py](https://github.com/realdiganta/crv-bribe-automator/blob/main/tests/test_main.py). To run the tests run the following command
+All required tests for the contract are included in the [tests/test_main.py](https://github.com/realdiganta/crv-bribe-automator/blob/main/tests/test_main.py) file. To run the tests run the following command
 ```
 brownie test
 ```
