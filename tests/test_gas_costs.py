@@ -1,9 +1,6 @@
-import brownie
 from brownie import (
-    chain,
     accounts,
     interface,
-    Contract,
     BribesManager,
     BribesLogic,
     BribesFactory

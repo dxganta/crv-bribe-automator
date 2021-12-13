@@ -20,9 +20,4 @@ library BribesLogic {
         IBribeV2(CURVE_BRIBE).add_reward_amount(GAUGE, TOKEN, TOKENS_PER_VOTE);
         return IBribeV2(CURVE_BRIBE).active_period(GAUGE, TOKEN);
     }
-
-    /// @dev returns the remaining number of votig cycles that the contract can vote for with current token balance
-    function votesLeft(address TOKEN, uint TOKENS_PER_VOTE) public view returns (uint) {
-        return IERC20(TOKEN).balanceOf(address(this)) / TOKENS_PER_VOTE;
-    }
 }

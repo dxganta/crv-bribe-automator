@@ -1,5 +1,9 @@
-# Automatic Gauge Votes incentives On Bribe.Crv.Finance
+# Automatic Gauge Votes Incentives On Bribe.Crv.Finance
 
+## TODO:
+1. Final gas check before submitting the project to gitcoin
+2. Delete the test_gas_costs.py file
+3. Add a test_bribe_factory.py & test_bribe_manager.py
 ## Summary
 ### [BribesManager.sol]((https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesManager.sol))
 The main contract is the BribesManager.sol contract. It has no admin controls.
@@ -18,13 +22,34 @@ On deployment of the contract, the user needs to input the following parameters:
 
  If the contract has more than zero tokens but less than TOKEN_PER_VOTE tokens, then the <strong>sendBribe()</strong> method will send whatever tokens the contract has to the curve bribe contract.
 
- ### [BribesLogic.sol]
+ ### [BribesLogic.sol](https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/library/BribesLogic.sol)
  This is a library which contains all the logic for the BribesManager contract. This needs to by deployed just once.
 
- ## [BribesFactory.sol]
+ ### [BribesFactory.sol](https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesFactory.sol)
 This is a factory contract added for ease of deployment of the BribesManager contract by any user. This also reduces the gas cost for deploying a BribesManager contract (details below under Gas Costs section). This Factory contract needs to be deployed just once.
 
 The user has to call the <strong>deployManager()</strong> method with the required parameters to deploy a new BribesManager contract. A <strong>NewManager</strong> event is emitted on contract deployment to keep logs of all the managers deployed.
+
+## Installation & Setup
+
+1. Install [Brownie](https://eth-brownie.readthedocs.io/en/stable/install.html) & [Ganache-CLI](https://www.npmjs.com/package/ganache-cli), if you haven't already.
+
+2. Copy the .env.example file, and rename it to .env
+
+3. Sign up for Infura and generate an API key. Store it in the WEB3_INFURA_PROJECT_ID environment variable.
+
+4. Sign up for Etherscan and generate an API key. This is required for fetching source codes of the ethereum mainnet contracts we will be interacting with. Store the API key in the ETHERSCAN_TOKEN environment variable.
+
+Install the dependencies in the package
+```
+## Python Dependencies
+pip install -r requirements.txt
+```
+
+## Tests
+Test cases included
+photo of successful tests
+how to test
 
 ## To Add
 1. Add links to everything
@@ -38,8 +63,9 @@ The user has to call the <strong>deployManager()</strong> method with the requir
 ## Gas Costs
 At first, I created a single BribesManager contract with all the code in it. But the deployment cost was very high (342210 gas). So I changed it to a library-contract architecture where the <strogn>BribesLogic</strong> library contains all the logic and the <strong>BribesManager</strong> stores the state variables. This reduced the cost of deploying the BribesManager to 221089 gas (<strong>35.4 %</strong> reduction).
 I also added another BribesFactory contract which can be used to deploy new BribesManager using the deployManager() method. This further reduces the gas cost of deploying a BribesManager contract to <strong>209707 gas</strong>.
- To check the gas costs for yourself run the following command
-```
-brownie test tests/test_gas_costs.py -s --gas
-```
 <img src="https://user-images.githubusercontent.com/47485188/145610075-5dd17449-8e57-4552-bbb9-6f8ed5ab971c.png"> </img>
+
+## Deployed Addresses (Ropsten Testnet)
+1. BribesLogic Library : [0xcbCE8453adcD7a19E3087607D98A939F9b1738ba](https://ropsten.etherscan.io/address/0xcbCE8453adcD7a19E3087607D98A939F9b1738ba)
+2. BribesFactory Contract : [0x4cCAA98F5b718deEDc003140738Bd1E38a60c342](https://ropsten.etherscan.io/address/0x4ccaa98f5b718deedc003140738bd1e38a60c342)
+3. BribesManager Contract : [0xfDdA22A5Ef8cdbd12341f871EbDA4eE588A41E33](https://ropsten.etherscan.io/address/0xfDdA22A5Ef8cdbd12341f871EbDA4eE588A41E33)

@@ -18,11 +18,10 @@ contract BribesManager {
         TOKEN = token;
         GAUGE = gauge;
         TOKENS_PER_VOTE = tokens_per_vote;
-
-        IERC20(TOKEN).approve(CURVE_BRIBE, type(uint).max);
     }
 
     function sendBribe() public {
+        IERC20(TOKEN).approve(CURVE_BRIBE, TOKENS_PER_VOTE);
         lastPeriod = BribesLogic.sendBribe(TOKEN, GAUGE, TOKENS_PER_VOTE, lastPeriod, CURVE_BRIBE);
     }
 }
