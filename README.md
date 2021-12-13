@@ -52,9 +52,9 @@ brownie test
 <img src="https://user-images.githubusercontent.com/47485188/145868086-cbb29332-168d-4caf-bb84-f4f0fa6a8466.png"> </img>
 
 ## Gas Costs
-At first, I created a single BribesManager contract with all the code in it. But the deployment cost was very high (342210 gas). So I changed it to a library-contract architecture where the <strogn>BribesLogic</strong> library contains all the logic and the <strong>BribesManager</strong> stores the state variables. This reduced the cost of deploying the BribesManager to 221089 gas (<strong>35.4 %</strong> reduction).
-I also added another BribesFactory contract which can be used to deploy new BribesManager using the deployManager() method. This further reduces the gas cost of deploying a BribesManager contract to <strong>209707 gas</strong>.
-<img src="https://user-images.githubusercontent.com/47485188/145610075-5dd17449-8e57-4552-bbb9-6f8ed5ab971c.png"> </img>
+At first, I created a single BribesManager contract with all the code in it. But the deployment cost was very high (342210 gas). So I changed it to a library-contract architecture where the <strong>[BribesLogic](https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/library/BribesLogic.sol)</strong> library contains all the logic and the <strong>[BribesManager](https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesManager.sol)</strong> stores the state variables. This reduced the cost of deploying the BribesManager to 247928 gas (<strong>27.5 %</strong> reduction).
+I further added another <strong>[BribesFactory]((https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesFactory.sol)) </strong>contract which can be used to deploy new BribesManager using the deployManager() method. This further reduces the gas cost of deploying a BribesManager contract to <strong>236372 gas</strong>.
+<img src="https://user-images.githubusercontent.com/47485188/145869094-98c2f96a-f44e-469b-87d2-b8cc7494727b.png"> </img>
 
 ## Deployed Addresses (Ropsten Testnet)
 1. BribesLogic Library : [0xcbCE8453adcD7a19E3087607D98A939F9b1738ba](https://ropsten.etherscan.io/address/0xcbCE8453adcD7a19E3087607D98A939F9b1738ba)
