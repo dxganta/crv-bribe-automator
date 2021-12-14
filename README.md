@@ -8,9 +8,9 @@
 The main contract is the BribesManager.sol contract. It has no admin controls.
 
 On deployment of the contract, the user needs to input the following parameters:
- 1. <strong>token</strong>: The contract address of the reward/incentive (ERC20 Token) that will be used for bribing.
- 2. <strong>gauge</strong>: The contract address of the required curve gauge.
- 3. <strong>tokens_per_vote</strong>: The amount of tokens that will be sent to the curve bribing contract per vote (voting cycle).
+ 1. <strong>token (address)</strong>: The contract address of the reward/incentive (ERC20 Token) that will be used for bribing.
+ 2. <strong>gauge (address)</strong>: The contract address of the required curve gauge.
+ 3. <strong>tokensPerVote (uint)</strong>: The number of tokens that will be sent to the curve bribing contract per vote (voting cycle).
 
  Anybody can send tokens to the contract to be used for bribing.
  Once sent the user has to call the <strong>sendBribe()</strong> method to send the tokens to the curve bribing contract. <strong>The sendBribe()</strong> method requires no parameters and can be called by anyone.
