@@ -13,13 +13,14 @@ contract BribesManager {
 
     /// @param token Address of the reward/incentive token
     /// @param gauge address of the curve gauge
-    /// @param tokens_per_vote number of tokens to add as incentives per vote
-    constructor(address token, address gauge, uint tokens_per_vote) {
+    /// @param tokensPerVote number of tokens to add as incentives per vote
+    constructor(address token, address gauge, uint tokensPerVote) {
         TOKEN = token;
         GAUGE = gauge;
-        TOKENS_PER_VOTE = tokens_per_vote;
+        TOKENS_PER_VOTE = tokensPerVote;
     }
 
+    /// @dev Sends TOKENS_PER_VOTE number of tokens to the Curve's Bribe Contract as voting incentives for the current voting cycle
     function sendBribe() public {
         IERC20(TOKEN).approve(CURVE_BRIBE, TOKENS_PER_VOTE);
         lastPeriod = BribesLogic.sendBribe(TOKEN, GAUGE, TOKENS_PER_VOTE, lastPeriod, CURVE_BRIBE);
