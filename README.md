@@ -45,12 +45,12 @@ All required tests for the contract are included in the [tests/test_main.py](htt
 ```
 brownie test
 ```
-<img src="https://user-images.githubusercontent.com/47485188/145868086-cbb29332-168d-4caf-bb84-f4f0fa6a8466.png"> </img>
+<img src="https://user-images.githubusercontent.com/47485188/146816035-c3371b6b-8d79-420f-84cc-7b17ef7fde16.png"> </img>
 
 ## Gas Costs
-At first, I created a single BribesManager contract with all the code in it. But the deployment cost was very high (342210 gas). So I changed it to a library-contract architecture where the <strong>[BribesLogic](https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/library/BribesLogic.sol)</strong> library contains all the logic and the <strong>[BribesManager](https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesManager.sol)</strong> stores the state variables. This reduced the cost of deploying the BribesManager to 247928 gas (<strong>27.5 %</strong> reduction).
-I further added another <strong>[BribesFactory]((https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesFactory.sol)) </strong>contract which can be used to deploy new BribesManager using the deployManager() method. This further reduces the gas cost of deploying a BribesManager contract to <strong>236372 gas</strong>.
-<img src="https://user-images.githubusercontent.com/47485188/145869094-98c2f96a-f44e-469b-87d2-b8cc7494727b.png"> </img>
+At first, I created a single BribesManager contract with all the code in it. But the deployment cost was very high (342210 gas). So I changed it to a library-contract architecture where the <strong>[BribesLogic](https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/library/BribesLogic.sol)</strong> library contains all the logic and the <strong>[BribesManager](https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesManager.sol)</strong> stores the state variables. This reduced the cost of deploying the BribesManager to 202742 gas (<strong>27.5 %</strong> reduction).
+I further added another <strong>[BribesFactory]((https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesFactory.sol)) </strong>contract which can be used to deploy new BribesManager using the deployManager() method. This further reduces the gas cost of deploying a BribesManager contract to <strong>193647 gas</strong>.
+<img src="https://user-images.githubusercontent.com/47485188/146815523-2919c6ec-701a-4153-afee-24cdd34af386.png"> </img>
 
 ## Deployed Addresses (Ropsten Testnet)
 1. BribesLogic Library : [0xcbCE8453adcD7a19E3087607D98A939F9b1738ba](https://ropsten.etherscan.io/address/0xcbCE8453adcD7a19E3087607D98A939F9b1738ba)
@@ -59,3 +59,5 @@ I further added another <strong>[BribesFactory]((https://github.com/realdiganta/
 
 ## Notes
 Importance has been given here on reducing gas costs as compared to accessiblity. For example, in the BribesManager contract you may see that I have made the storage variables private (TOKEN, GAUGE, TOKENS_PER_VOTE). This was done to reduce gas costs. One might ask that when sending bribes a user might want to know about the token address, gauge address, tokens per vote etc. of the BribesManager contract. But as you can see on contract deployment of the BribesManager using the deployManager() method in the BribesFactory contract, an NewManager() event is emitted. So for the UI we can easily get the details of any BribesManager contract by querying that NewManager() event.
+
+For any queries please ping me on discord diganta.eth#0692 or mail at digantakalita.ai@gmail.com
