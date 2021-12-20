@@ -5,10 +5,10 @@ import "../interfaces/token/IERC20.sol";
 import "./library/BribesLogic.sol";
 
 contract BribesManager {
-    address public immutable TOKEN;
-    address public immutable GAUGE;
-    uint public immutable TOKENS_PER_VOTE;
-    uint public lastPeriod;
+    address immutable TOKEN;
+    address immutable GAUGE;
+    uint immutable TOKENS_PER_VOTE;
+    uint lastPeriod;
     address constant CURVE_BRIBE = 0x7893bbb46613d7a4FbcC31Dab4C9b823FfeE1026;
 
     /// @param token Address of the reward/incentive token
@@ -21,7 +21,7 @@ contract BribesManager {
     }
 
     /// @dev Sends TOKENS_PER_VOTE number of tokens to the Curve's Bribe Contract as voting incentives for the current voting cycle
-    function sendBribe() public {
+    function sendBribe() external {
         IERC20(TOKEN).approve(CURVE_BRIBE, TOKENS_PER_VOTE);
         lastPeriod = BribesLogic.sendBribe(TOKEN, GAUGE, TOKENS_PER_VOTE, lastPeriod, CURVE_BRIBE);
     }

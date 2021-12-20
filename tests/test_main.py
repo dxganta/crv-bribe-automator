@@ -28,8 +28,18 @@ def test_main():
     # deploy factory
     factory = BribesFactory.deploy({'from': token_whale})
 
-    manager_address = factory.deployManager(
-        TOKEN, GAUGE, TOKENS_PER_VOTE,  {"from": token_whale}).return_value
+    tx = factory.deployManager(
+        TOKEN, GAUGE, TOKENS_PER_VOTE,  {"from": token_whale})
+
+    manager_address = tx.return_value
+
+    # assert that the NewManager event was emitted successfully
+    event = tx.events["NewManager"][0][0]
+
+    assert event['bribesManager'] == manager_address
+    assert event['token'] == TOKEN
+    assert event['gauge'] == GAUGE
+    assert event['tokensPerVote'] == TOKENS_PER_VOTE
 
     manager = interface.IBribesManager(manager_address)
 
@@ -37,7 +47,7 @@ def test_main():
     rewards = bribeV2.reward_per_token(GAUGE, TOKEN)
     assert rewards == 0
 
-    # send tokens for bribing
+    # fill the manager contract with tokens for bribing
     token.transfer(manager, TOKENS_PER_VOTE * 2 + dust, {'from': token_whale})
 
     # bribe

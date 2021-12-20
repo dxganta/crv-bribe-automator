@@ -12,7 +12,7 @@ interface IERC20 {
     function transfer(
         address to,
         uint256 amount
-    ) external;
+    ) external returns (bool);
 
     function transferFrom(
         address sender,

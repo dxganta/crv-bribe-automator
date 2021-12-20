@@ -1,8 +1,4 @@
 # Automatic Gauge Votes Incentives On Bribe.Crv.Finance
-
-## TODO:
-1. Final gas check before submitting the project to gitcoin
-2. Delete the test_gas_costs.py file
 ## Summary
 ### [BribesManager.sol]((https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesManager.sol))
 The main contract is the BribesManager.sol contract. It has no admin controls.
@@ -60,3 +56,6 @@ I further added another <strong>[BribesFactory]((https://github.com/realdiganta/
 1. BribesLogic Library : [0xcbCE8453adcD7a19E3087607D98A939F9b1738ba](https://ropsten.etherscan.io/address/0xcbCE8453adcD7a19E3087607D98A939F9b1738ba)
 2. BribesFactory Contract : [0x4cCAA98F5b718deEDc003140738Bd1E38a60c342](https://ropsten.etherscan.io/address/0x4ccaa98f5b718deedc003140738bd1e38a60c342)
 3. BribesManager Contract : [0xfDdA22A5Ef8cdbd12341f871EbDA4eE588A41E33](https://ropsten.etherscan.io/address/0xfDdA22A5Ef8cdbd12341f871EbDA4eE588A41E33)
+
+## Notes
+Importance has been given here on reducing gas costs as compared to accessiblity. For example, in the BribesManager contract you may see that I have made the storage variables private (TOKEN, GAUGE, TOKENS_PER_VOTE). This was done to reduce gas costs. One might ask that when sending bribes a user might want to know about the token address, gauge address, tokens per vote etc. of the BribesManager contract. But as you can see on contract deployment of the BribesManager using the deployManager() method in the BribesFactory contract, an NewManager() event is emitted. So for the UI we can easily get the details of any BribesManager contract by querying that NewManager() event.
