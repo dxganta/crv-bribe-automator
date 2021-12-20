@@ -1,6 +1,6 @@
 # Automatic Gauge Votes Incentives On Bribe.Crv.Finance
 ## Summary
-### [BribesManager.sol]((https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesManager.sol))
+### [BribesManager.sol](https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesManager.sol)
 The main contract is the BribesManager.sol contract. It has no admin controls.
 
 On deployment of the contract, the user needs to input the following parameters:
