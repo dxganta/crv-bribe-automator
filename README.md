@@ -43,13 +43,18 @@ pip install -r requirements.txt
 ## Tests
 All required tests for the contract are included in the [tests/test_main.py](https://github.com/realdiganta/crv-bribe-automator/blob/main/tests/test_main.py) file. To run the tests run the following command
 ```
-brownie test
+brownie test tests/test_main.py
 ```
 <img src="https://user-images.githubusercontent.com/47485188/146816035-c3371b6b-8d79-420f-84cc-7b17ef7fde16.png"> </img>
 
 ## Gas Costs
 At first, I created a single BribesManager contract with all the code in it. But the deployment cost was very high (342210 gas). So I changed it to a library-contract architecture where the <strong>[BribesLogic](https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/library/BribesLogic.sol)</strong> library contains all the logic and the <strong>[BribesManager](https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesManager.sol)</strong> stores the state variables. This reduced the cost of deploying the BribesManager to 202742 gas (<strong>27.5 %</strong> reduction).
 I further added another <strong>[BribesFactory]((https://github.com/realdiganta/crv-bribe-automator/blob/main/contracts/BribesFactory.sol)) </strong>contract which can be used to deploy new BribesManager using the deployManager() method. This further reduces the gas cost of deploying a BribesManager contract to <strong>193647 gas</strong>.
+
+To check the gas costs for yourself run the following command
+```
+brownie test tests/test_gas_costs.py -s --gas
+```
 <img src="https://user-images.githubusercontent.com/47485188/146815523-2919c6ec-701a-4153-afee-24cdd34af386.png"> </img>
 
 ## Deployed Addresses (Ropsten Testnet)

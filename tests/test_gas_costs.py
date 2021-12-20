@@ -7,14 +7,15 @@ from brownie import (
 )
 from config import (
     GAUGE,
-    TOKEN,
     TOKENS_PER_VOTE
 )
+
+TOKEN = "0x4e15361fd6b4bb609fa63c81a2be19d873717870"
 
 
 def test_gas_costs():
     token_whale = accounts.at(
-        "0x627dcd9b5518ace082eafa1f40842b9b45fbbd9c", force=True)
+        "0x57900b3dc6206994d3b2d593db8f6c6bfdbb61a9", force=True)
     dust = TOKENS_PER_VOTE * 0.4
     token = interface.IERC20(TOKEN)
 
